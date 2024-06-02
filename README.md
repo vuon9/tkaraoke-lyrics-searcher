@@ -26,21 +26,70 @@ npm i tkaraoke-lyrics-searcher
 Then use it in your code:
 
 ```js
-import { searchSongLyrics } from 'tkaraoke-lyrics-searcher';
+import { searchSongLyrics, searchLyricsByLyrics } from 'tkaraoke-lyrics-searcher';
 
+// Search for lyrics by song name
 const lyrics1 = searchLyricsBySong("Chuyện nhỏ");
+// Search for lyrics by song name and singer
 const lyrics2 = searchLyricsBySong("Anh", "Mỹ Lệ");
+// Search for lyrics by song name and singer 2
 const lyrics3 = searchLyricsBySong("Anh", "Hồ Quỳnh Hương");
+// Search for lyrics by song and multiple singers
+const lyrics4 = searchLyricsBySong("Nơi Ấy", ["Phan Đinh Tùng", "Hà Okio"]);
 
 console.log(await lyrics1, "\n");
 console.log(await lyrics2, "\n");
 console.log(await lyrics3, "\n");
 
+// Result:
+// Chuyện Nhỏ
+// Lê Minh
+
+// Có những lúc chuyện nhỏ tưởng như là khó
+// có những lúc thấy lo nhưng mọi chuyện lại chẳng nhằm nhò
+// ...
+// ...
+// Anh
+// Nguyễn Hoài Anh
+
+// Anh vẫn đến dù trời gió mưa giăng khắp lối
+// Dù cho những lúc giá rét suốt đêm mùa đông lạnh lùng
+// ...
+// ...
+// Anh
+// Xuân Phương
+
+// Một lời anh không muốn nói
+// là một mai hai ta không cách xa
+// ...
+// ...
+// Nơi Ấy
+// Nguyễn Hải Phong
+
+// Có lắm lúc nắng chói quanh ta con đường hàng cây xanh lá
+// Những góc phố sớm tối đi qua thơm ngát quá...
+
 const lyrics4 = searchLyricsByLyrics("Mùa đông trên thung lũng xa");
-const lyrics5 = searchLyricsByLyrics("Phố đêm đèn mờ giăng giăng");
+const lyrics5 = searchLyricsByLyrics("Phố sương mù, phố chưa lên đèn");
 
 console.log(await lyrics4, "\n");
 console.log(await lyrics5, "\n");
+
+// Result:
+// Chiếc Lá Mùa Đông
+// Nhạc Ngoại [Lời Việt: Khúc Lan]
+
+// Mùa đông trên thung lũng xa
+// như một tiếng kinh cầu
+// Làm sao để ta quên đi một cơn bão lớn
+// ...
+// ...
+// Phố Mùa Đông
+// Bảo Chấn
+
+// Phố sương mù, phố chưa lên đèn
+// Núi quanh đồi như mùa trăng cũ
+// Từng dốc phố, quấn quanh núi đồi
 ```
 
 OR, with CommonJS:
@@ -48,11 +97,18 @@ OR, with CommonJS:
 ```js
 const ts = require("tkaraoke-lyrics-searcher");
 const test = async () => {
-  const lyrics1 = await searchLyricsBySong("Chuyện nhỏ");
+  const lyrics1 = await ts.searchLyricsBySong("Chuyện nhỏ");
   console.log(lyrics1, "\n");
 };
 
 test();
+
+// Result:
+// Chuyện Nhỏ
+// Lê Minh
+
+// Có những lúc chuyện nhỏ tưởng như là khó
+// có những lúc thấy lo nhưng mọi chuyện lại chẳng nhằm nhò
 ```
 
 # Notes

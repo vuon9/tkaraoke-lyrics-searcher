@@ -43,14 +43,29 @@ const tryToMatchSongWithMetadata = (
 
     let artistIsSinger =
       !!artist &&
-      song.singers.find(
-        (singer) =>
-          singer.toLowerCase() == artist.toLowerCase() ||
-          singer.toLowerCase().indexOf(artist.toLowerCase()) !== -1,
-      );
+      song.singers.some((singer) => {
+        if (Array.isArray(artist)) {
+          return artist.some(
+            (artistName) =>
+              singer.toLowerCase() == artistName.toLowerCase() ||
+              singer.toLowerCase().indexOf(artistName.toLowerCase()) !== -1
+          );
+        } else {
+          return (
+            singer.toLowerCase() == artist.toLowerCase() ||
+            singer.toLowerCase().indexOf(artist.toLowerCase()) !== -1
+          );
+        }
+      });
 
     let artistIsWriter =
-      !!artist && song.writer.toLowerCase() == artist.toLowerCase();
+      !!artist &&
+      (Array.isArray(artist)
+        ? artist.some(
+          (artistName) =>
+            song.writer.toLowerCase() == artistName.toLowerCase()
+        )
+        : song.writer.toLowerCase() == artist.toLowerCase());
 
     switch (mode) {
       case MODE_SEARCH_BY_SONG_NAME:
