@@ -1,14 +1,29 @@
-# Tkaraoke lyrics searcher
+
+<h2 align="center">
+  <img src="logo.jpeg" alt="I love karaoke" width="320" height="320">
+
+  Tkaraoke Lyrics Searcher
+</h2>
+
+<p align="center">
+	<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+  <a href="https://www.npmjs.com/package/tkaraoke-lyrics-searcher"><img src="https://badge.fury.io/js/tkaraoke-lyrics-searcher.svg"></a>
+	<a href="https://github.com/vuon9/tkaraoke-lyrics-searcher/issues"><img src="https://img.shields.io/github/issues/vuon9/tkaraoke-lyrics-searcher?colorA=363a4f&colorB=f5a97f"></a>
+	<a href="https://github.com/vuon9/tkaraoke-lyrics-searcher/contributors"><img src="https://img.shields.io/github/contributors/vuon9/tkaraoke-lyrics-searcher?colorA=363a4f&colorB=a6da95"></a>
+
+</p>
 
 Simple module to search for lyrics of a song in the Tkaraoke database. Which mostly useful for Vietnamese songs.
 
-# Installation
+# Usage
+
+Install the module:
 
 ```bash
 npm i tkaraoke-lyrics-searcher
 ```
 
-# How to use
+Then use it in your code:
 
 ```js
 import { searchSongLyrics } from 'tkaraoke-lyrics-searcher';
@@ -28,7 +43,7 @@ console.log(await lyrics4, "\n");
 console.log(await lyrics5, "\n");
 ```
 
-OR
+OR, with CommonJS:
 
 ```js
 const ts = require("tkaraoke-lyrics-searcher");
@@ -40,7 +55,7 @@ const test = async () => {
 test();
 ```
 
-# Note
+# Notes
 
 The lyrics content is belong to the Tkaraoke database, and the module only search for the lyrics in the database.
 
