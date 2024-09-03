@@ -1,12 +1,12 @@
 {
   "name": "tkaraoke-lyrics-searcher",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "Search for lyrics of a song on TKaraoke",
   "main": "index.js",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vuon9/tkaraoke-lyrics-searcher.git"
+    "url": "git+https://github.com/vuon9/tkaraoke-lyrics-searcher.git"
   },
   "dependencies": {
     "axios": "^1.7.2",
