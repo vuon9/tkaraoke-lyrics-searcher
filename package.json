@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vuon9/tkaraoke-lyrics-searcher.git"
+    "url": "https://github.com/vuon9/tkaraoke-lyrics-searcher.git"
   },
   "dependencies": {
     "axios": "^1.7.2",
