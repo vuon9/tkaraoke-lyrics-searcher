@@ -1,6 +1,6 @@
 {
   "name": "tkaraoke-lyrics-searcher",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "Search for lyrics of a song on TKaraoke",
   "main": "index.js",
   "license": "MIT",
@@ -12,5 +12,8 @@
     "axios": "^1.7.2",
     "cheerio": "^1.0.0-rc.12"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }

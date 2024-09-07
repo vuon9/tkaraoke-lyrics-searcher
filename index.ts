@@ -1,12 +1,25 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
+import axios from "axios";
+import cheerio from "cheerio";
 
 const rootURL = "https://lyric.tkaraoke.com";
 const SOURCE = `[Nguồn: ${rootURL}]`;
-const MODE_SEARCH_BY_SONG_NAME = 1;
-const MODE_SEARCH_BY_LYRICS = 3;
+const MODE_SEARCH_BY_SONG_NAME: number = 1;
+const MODE_SEARCH_BY_LYRICS: number = 3;
 
-const searchLyricsBySong = async (songName, artist) => {
+interface Artist {
+  name: string;
+  url: string;
+}
+
+interface Song {
+  title: string;
+  songUrl: string;
+  writer: Artist;
+  singers: Artist[];
+  lyrics: string;
+}
+
+export const searchLyricsBySong = async (songName: string, artist: string): Promise<string | null> => {
   let song = tryToMatchSongWithMetadata(
     await findSongs(songName, MODE_SEARCH_BY_SONG_NAME),
     songName,
@@ -16,7 +29,7 @@ const searchLyricsBySong = async (songName, artist) => {
   return song ? await findSongLyrics(song) : null;
 };
 
-const searchLyricsByLyrics = async (lyrics, artist) => {
+export const searchLyricsByLyrics = async (lyrics: string, artist: string) => {
   let song = tryToMatchSongWithMetadata(
     await findSongs(lyrics, MODE_SEARCH_BY_LYRICS),
     lyrics,
@@ -27,11 +40,11 @@ const searchLyricsByLyrics = async (lyrics, artist) => {
 };
 
 const tryToMatchSongWithMetadata = (
-  songs,
-  songNameOrLyrics,
-  artist,
+  songs: Song[],
+  songNameOrLyrics: string,
+  artist: string,
   mode = MODE_SEARCH_BY_SONG_NAME,
-) => {
+): Song | null | undefined => {
   return songs.find((song) => {
     let songNameIsMatched =
       !!songNameOrLyrics &&
@@ -47,13 +60,13 @@ const tryToMatchSongWithMetadata = (
         if (Array.isArray(artist)) {
           return artist.some(
             (artistName) =>
-              singer.toLowerCase() == artistName.toLowerCase() ||
-              singer.toLowerCase().indexOf(artistName.toLowerCase()) !== -1
+              singer.name.toLowerCase() == artistName.name.toLowerCase() ||
+              singer.name.toLowerCase().indexOf(artistName.name.toLowerCase()) !== -1
           );
         } else {
           return (
-            singer.toLowerCase() == artist.toLowerCase() ||
-            singer.toLowerCase().indexOf(artist.toLowerCase()) !== -1
+            singer.name.toLowerCase() == artist.toLowerCase() ||
+            singer.name.toLowerCase().indexOf(artist.toLowerCase()) !== -1
           );
         }
       });
@@ -63,9 +76,9 @@ const tryToMatchSongWithMetadata = (
       (Array.isArray(artist)
         ? artist.some(
           (artistName) =>
-            song.writer.toLowerCase() == artistName.toLowerCase()
+            song.writer.name.toLowerCase() == artistName.toLowerCase()
         )
-        : song.writer.toLowerCase() == artist.toLowerCase());
+        : song.writer.name.toLowerCase() == artist.toLowerCase());
 
     switch (mode) {
       case MODE_SEARCH_BY_SONG_NAME:
@@ -78,14 +91,14 @@ const tryToMatchSongWithMetadata = (
   });
 };
 
-const findSongLyrics = async (song) => {
+const findSongLyrics = async (song: Song): Promise<string> => {
   let encodedURL = rootURL + song.songUrl;
   let resp = await axios.get(encodedURL);
 
   let $ = cheerio.load(resp.data);
   let title = $(".h3-title-song").text().trim();
   let author = $("div .div-author span").text().trim();
-  let lyrics = $("div .div-content-lyric").html();
+  let lyrics = $("div .div-content-lyric").html() as string;
 
   return (
     title +
@@ -98,41 +111,41 @@ const findSongLyrics = async (song) => {
   );
 };
 
-const findSongs = async (songName, t) => {
+const findSongs = async (songName: string, t: number) => {
   let encodedURL = rootURL + `/s.tim?q=${encodeURIComponent(songName)}&t=${t}`;
   let resp = await axios.get(encodedURL);
 
-  let songs = [];
+  let songs: Song[] = [];
   let $ = cheerio.load(resp.data);
   $("div .div-result-item").each((index, element) => {
     let title = $(element).find(".h4-title-song a").text();
-    let songUrl = $(element).find(".h4-title-song a").prop("href");
-    let writerUrl = $(element).find(".p-author a").prop("href");
+    let songUrl = $(element).find(".h4-title-song a").prop("href") as string;
+    let writerUrl = $(element).find(".p-author a").prop("href") as string;
     let writer = $(element).find(".p-author a").text();
     let lyrics = $(element).find(".p-lyrics").text();
 
-    let singers = [];
+    let singers: Artist[] = [];
+
     $(element)
       .find(".p-singer a")
       .each((index, element) => {
         singers.push({
           name: $(element).text(),
-          url: $(element).prop("href"),
+          url: $(element).prop("href") as string,
         });
       });
 
     songs.push({
       title,
       songUrl,
-      writer,
-      writerUrl,
+      writer: {
+        name: writer,
+        url: writerUrl,
+      },
       lyrics,
-      singers: singers.map((singer) => singer.name),
+      singers,
     });
   });
 
   return songs;
 };
-
-exports.searchLyricsBySong = searchLyricsBySong;
-exports.searchLyricsByLyrics = searchLyricsByLyrics;
