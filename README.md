@@ -41,74 +41,26 @@ console.log(await lyrics1, "\n");
 console.log(await lyrics2, "\n");
 console.log(await lyrics3, "\n");
 
-// Result:
-// Chuyện Nhỏ
-// Lê Minh
-
-// Có những lúc chuyện nhỏ tưởng như là khó
-// có những lúc thấy lo nhưng mọi chuyện lại chẳng nhằm nhò
-// ...
-// ...
-// Anh
-// Nguyễn Hoài Anh
-
-// Anh vẫn đến dù trời gió mưa giăng khắp lối
-// Dù cho những lúc giá rét suốt đêm mùa đông lạnh lùng
-// ...
-// ...
-// Anh
-// Xuân Phương
-
-// Một lời anh không muốn nói
-// là một mai hai ta không cách xa
-// ...
-// ...
-// Nơi Ấy
-// Nguyễn Hải Phong
-
-// Có lắm lúc nắng chói quanh ta con đường hàng cây xanh lá
-// Những góc phố sớm tối đi qua thơm ngát quá...
-
 const lyrics4 = searchLyricsByLyrics("Mùa đông trên thung lũng xa");
 const lyrics5 = searchLyricsByLyrics("Phố sương mù, phố chưa lên đèn");
 
 console.log(await lyrics4, "\n");
 console.log(await lyrics5, "\n");
-
-// Result:
-// Chiếc Lá Mùa Đông
-// Nhạc Ngoại [Lời Việt: Khúc Lan]
-
-// Mùa đông trên thung lũng xa
-// như một tiếng kinh cầu
-// Làm sao để ta quên đi một cơn bão lớn
-// ...
-// ...
-// Phố Mùa Đông
-// Bảo Chấn
-
-// Phố sương mù, phố chưa lên đèn
-// Núi quanh đồi như mùa trăng cũ
-// Từng dốc phố, quấn quanh núi đồi
 ```
 
 OR, with CommonJS:
 
 ```js
-const ts = require("tkaraoke-lyrics-searcher");
-const test = async () => {
-  const lyrics1 = await ts.searchLyricsBySong("Chuyện nhỏ");
-  console.log(lyrics1, "\n");
-};
+const { searchLyricsBySong } = require('tkaraoke-lyrics-searcher');
 
-test();
-
-// Result:
-// Chuyện Nhỏ
-// Lê Minh
-
-// Có những lúc chuyện nhỏ tưởng như là khó
-// có những lúc thấy lo nhưng mọi chuyện lại chẳng nhằm nhò
+(async () => {
+  try {
+    const song = await searchLyricsBySong('Bohemian Rhapsody', 'Queen');
+    console.log(song);
+  } catch (error) {
+    console.error('Error fetching lyrics:', error);
+  }
+})();
 ```
 
 # Notes
