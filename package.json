@@ -1,6 +1,6 @@
 {
   "name": "tkaraoke-lyrics-searcher",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Search for lyrics of a song on TKaraoke",
   "main": "index.js",
   "license": "MIT",
