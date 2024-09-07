@@ -1,8 +1,17 @@
 {
     "compilerOptions": {
-        "typeRoots": [
-            "./types",
-            "./node_modules/@types"
-        ]
-    }
+        "target": "ES6",
+        "module": "commonjs",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "./dist"
+    },
+    "include": [
+        "**/*"
+    ],
+    "files": [
+        "index.ts" // Add your source files here
+    ]
 }
