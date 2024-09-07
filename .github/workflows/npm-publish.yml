@@ -1,8 +1,14 @@
-name: Node.js Package
+name: Publish to npm
 
 on:
+  release:
+    types: [created]
   push:
-    branches: main
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   build:
@@ -14,7 +20,9 @@ jobs:
           node-version: 20
       - run: npm ci
 
-  publish:
+  publish-npm:
+    if: github.ref == 'refs/heads/main' || github.event_name == 'release'
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -25,6 +33,11 @@ jobs:
         with:
           node-version: "20"
       - run: npm ci
+      - run: npm version patch # Bump the version
+      - run: git config --global user.email "you@example.com"
+      - run: git config --global user.name "Your Name"
+      - run: "git commit -am 'chore(release): bump version'"
+      - run: git push
       - run: npm publish
         env:
-          NPM_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
